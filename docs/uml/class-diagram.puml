@@ -1,0 +1,201 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package "model" {
+    abstract class Vehicle {
+        - int id
+        - String plateNumber
+        - String brand
+        - String model
+        - double dailyRate
+        - VehicleStatus status
+        + getId()
+        + getPlateNumber()
+        + getBrand()
+        + getModel()
+        + getDailyRate()
+        + getStatus()
+        + setStatus(status)
+        + isAvailable()
+        + getType()
+    }
+
+    class Car
+    class Truck {
+        - double maxLoadKg
+    }
+    class Motorcycle {
+        - int engineCapacity
+    }
+    class Van {
+        - int seats
+    }
+    class ElectricVehicle {
+        - int batteryLevel
+        - boolean batteryChecked
+    }
+
+    class Manager {
+        - int id
+        - String username
+        - String password
+    }
+
+    class Customer {
+        - int id
+        - String name
+        - String phone
+        - String email
+        - int age
+        - License license
+    }
+
+    class License {
+        - String licenseNumber
+        - LicenseType type
+    }
+
+    class Rental {
+        - int id
+        - Customer customer
+        - Vehicle vehicle
+        - LocalDate startDate
+        - LocalDate endDate
+        - RentalStatus status
+    }
+
+    class Invoice {
+        - int id
+        - Rental rental
+        - LocalDate returnDate
+        - double rentalCost
+        - double latePenalty
+        - double totalAmount
+    }
+
+    enum VehicleStatus {
+        AVAILABLE
+        RENTED
+        MAINTENANCE
+    }
+
+    enum RentalStatus {
+        ACTIVE
+        CLOSED
+        CANCELLED
+    }
+
+    enum LicenseType {
+        REGULAR
+        MOTORCYCLE
+        TRUCK
+    }
+
+    Vehicle <|-- Car
+    Vehicle <|-- Truck
+    Vehicle <|-- Motorcycle
+    Vehicle <|-- Van
+    Vehicle <|-- ElectricVehicle
+
+    Vehicle --> VehicleStatus
+    Rental --> RentalStatus
+    Customer --> License
+    License --> LicenseType
+    Rental --> Customer
+    Rental --> Vehicle
+    Invoice --> Rental
+}
+
+package "repository" {
+    interface ManagerRepository
+    interface VehicleRepository
+    interface RentalRepository
+
+    class InMemoryManagerRepository
+    class InMemoryVehicleRepository
+    class InMemoryRentalRepository
+
+    ManagerRepository <|.. InMemoryManagerRepository
+    VehicleRepository <|.. InMemoryVehicleRepository
+    RentalRepository <|.. InMemoryRentalRepository
+}
+
+package "service" {
+    class AuthService
+    class VehicleCatalogService
+    class RentalService
+    class ReminderService
+    class BillingService
+    class ReturnService
+}
+
+package "validation" {
+    interface RentalValidationStrategy
+    class AvailabilityValidationStrategy
+    class DurationValidationStrategy
+    class TruckLicenseValidationStrategy
+    class MotorcycleAgeValidationStrategy
+    class ElectricBatteryValidationStrategy
+
+    RentalValidationStrategy <|.. AvailabilityValidationStrategy
+    RentalValidationStrategy <|.. DurationValidationStrategy
+    RentalValidationStrategy <|.. TruckLicenseValidationStrategy
+    RentalValidationStrategy <|.. MotorcycleAgeValidationStrategy
+    RentalValidationStrategy <|.. ElectricBatteryValidationStrategy
+}
+
+package "pricing" {
+    interface PricingStrategy
+    class DefaultPricingStrategy
+    class CarPricingStrategy
+    class TruckPricingStrategy
+    class ElectricVehiclePricingStrategy
+
+    interface LatePenaltyStrategy
+    class DefaultLatePenaltyStrategy
+
+    PricingStrategy <|.. DefaultPricingStrategy
+    PricingStrategy <|.. CarPricingStrategy
+    PricingStrategy <|.. TruckPricingStrategy
+    PricingStrategy <|.. ElectricVehiclePricingStrategy
+
+    LatePenaltyStrategy <|.. DefaultLatePenaltyStrategy
+}
+
+package "notification" {
+    interface NotificationService
+    class EmailNotificationService
+
+    NotificationService <|.. EmailNotificationService
+}
+
+package "observer" {
+    interface RentalObserver
+    class RentalExpiryObserver
+
+    RentalObserver <|.. RentalExpiryObserver
+}
+
+package "util" {
+    interface DateTimeProvider
+    class SystemDateTimeProvider
+
+    DateTimeProvider <|.. SystemDateTimeProvider
+}
+
+AuthService --> ManagerRepository
+VehicleCatalogService --> VehicleRepository
+RentalService --> VehicleRepository
+RentalService --> RentalRepository
+RentalService --> RentalValidationStrategy
+ReminderService --> RentalRepository
+ReminderService --> DateTimeProvider
+ReminderService --> RentalObserver
+BillingService --> PricingStrategy
+BillingService --> LatePenaltyStrategy
+ReturnService --> RentalRepository
+ReturnService --> BillingService
+
+RentalExpiryObserver --> NotificationService
+
+@enduml
