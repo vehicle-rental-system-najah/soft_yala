@@ -44,7 +44,7 @@ public abstract class Vehicle {
      * @param model the vehicle model
      * @param dailyRate the daily rental rate
      */
-    public Vehicle(int id, String plateNumber, String brand, String model, double dailyRate) {
+    protected  Vehicle(int id, String plateNumber, String brand, String model, double dailyRate) {
         this.id = id;
         this.plateNumber = plateNumber;
         this.brand = brand;

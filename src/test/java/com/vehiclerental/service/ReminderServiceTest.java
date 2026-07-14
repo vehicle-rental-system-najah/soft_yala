@@ -11,6 +11,7 @@ import com.vehiclerental.util.DateTimeProvider;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.Month;
 
 import static org.mockito.Mockito.*;
 
@@ -34,8 +35,8 @@ class ReminderServiceTest {
                 1,
                 customer,
                 car,
-                LocalDate.of(2026, 7, 13),
-                LocalDate.of(2026, 7, 14)
+                LocalDate.of(2026, Month.JULY, 13),
+                LocalDate.of(2026, Month.JULY, 14)
         );
 
         rentalRepository.save(rental);
@@ -43,7 +44,7 @@ class ReminderServiceTest {
         DateTimeProvider dateTimeProvider = mock(DateTimeProvider.class);
         NotificationService notificationService = mock(NotificationService.class);
 
-        when(dateTimeProvider.today()).thenReturn(LocalDate.of(2026, 7, 13));
+        when(dateTimeProvider.today()).thenReturn(LocalDate.of(2026, Month.JULY, 13));
 
         ReminderService reminderService = new ReminderService(rentalRepository, dateTimeProvider);
         reminderService.addObserver(new RentalExpiryObserver(notificationService));
@@ -75,8 +76,8 @@ class ReminderServiceTest {
                 1,
                 customer,
                 car,
-                LocalDate.of(2026, 7, 13),
-                LocalDate.of(2026, 7, 20)
+                LocalDate.of(2026, Month.JULY, 13),
+                LocalDate.of(2026, Month.JULY, 20)
         );
 
         rentalRepository.save(rental);
@@ -84,7 +85,7 @@ class ReminderServiceTest {
         DateTimeProvider dateTimeProvider = mock(DateTimeProvider.class);
         NotificationService notificationService = mock(NotificationService.class);
 
-        when(dateTimeProvider.today()).thenReturn(LocalDate.of(2026, 7, 13));
+        when(dateTimeProvider.today()).thenReturn(LocalDate.of(2026, Month.JULY, 13));
 
         ReminderService reminderService = new ReminderService(rentalRepository, dateTimeProvider);
         reminderService.addObserver(new RentalExpiryObserver(notificationService));

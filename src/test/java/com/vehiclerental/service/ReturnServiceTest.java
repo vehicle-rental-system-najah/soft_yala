@@ -12,6 +12,7 @@ import com.vehiclerental.repository.RentalRepository;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.Month;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,15 +40,15 @@ class ReturnServiceTest {
                 1,
                 customer,
                 car,
-                LocalDate.of(2026, 7, 13),
-                LocalDate.of(2026, 7, 14)
+                LocalDate.of(2026, Month.JULY, 13),
+                LocalDate.of(2026, Month.JULY, 14)
         );
 
         rentalRepository.save(rental);
 
         Invoice invoice = returnService.returnVehicle(
                 1,
-                LocalDate.of(2026, 7, 14)
+                LocalDate.of(2026, Month.JULY, 14)
         );
 
         assertNotNull(invoice);
@@ -62,7 +63,7 @@ class ReturnServiceTest {
 
         Invoice invoice = returnService.returnVehicle(
                 99,
-                LocalDate.of(2026, 7, 14)
+                LocalDate.of(2026, Month.JULY, 14)
         );
 
         assertNull(invoice);
