@@ -11,9 +11,19 @@ import com.vehiclerental.model.VehicleStatus;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Stores vehicle data in memory.
+ */
 public class InMemoryVehicleRepository implements VehicleRepository {
+
+    /**
+     * List of vehicles stored in memory.
+     */
     private List<Vehicle> vehicles;
 
+    /**
+     * Creates an in-memory vehicle repository with sample vehicles.
+     */
     public InMemoryVehicleRepository() {
         vehicles = new ArrayList<>();
 
@@ -37,6 +47,11 @@ public class InMemoryVehicleRepository implements VehicleRepository {
         vehicles.add(van1);
     }
 
+    /**
+     * Returns all vehicles stored in memory.
+     *
+     * @return a list of all vehicles
+     */
     @Override
     public List<Vehicle> findAll() {
         return vehicles;

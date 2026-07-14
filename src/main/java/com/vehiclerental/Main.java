@@ -34,8 +34,15 @@ import com.vehiclerental.validation.TruckLicenseValidationStrategy;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Main class used to run and demonstrate the Vehicle Rental Management System.
+ */
 public class Main {
+    /**
+     * Starts the application and demonstrates the main system features.
+     *
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         ManagerRepository managerRepository = new InMemoryManagerRepository();
         VehicleRepository vehicleRepository = new InMemoryVehicleRepository();
