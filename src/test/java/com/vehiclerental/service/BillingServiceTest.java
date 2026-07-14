@@ -9,6 +9,7 @@ import com.vehiclerental.pricing.DefaultPricingStrategy;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.Month;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,14 +29,14 @@ class BillingServiceTest {
                 1,
                 customer,
                 car,
-                LocalDate.of(2026, 7, 13),
-                LocalDate.of(2026, 7, 16)
+                LocalDate.of(2026, Month.JULY, 13),
+                LocalDate.of(2026, Month.JULY, 16)
         );
 
         Invoice invoice = billingService.createInvoice(
                 1,
                 rental,
-                LocalDate.of(2026, 7, 16)
+                LocalDate.of(2026, Month.JULY, 16)
         );
 
         assertEquals(105.0, invoice.getRentalCost(), 0.001);
@@ -57,14 +58,14 @@ class BillingServiceTest {
                 1,
                 customer,
                 car,
-                LocalDate.of(2026, 7, 13),
-                LocalDate.of(2026, 7, 15)
+                LocalDate.of(2026, Month.JULY, 13),
+                LocalDate.of(2026, Month.JULY, 15)
         );
 
         Invoice invoice = billingService.createInvoice(
                 1,
                 rental,
-                LocalDate.of(2026, 7, 17)
+                LocalDate.of(2026, Month.JULY, 17)
         );
 
         assertEquals(80.0, invoice.getRentalCost(), 0.001);
