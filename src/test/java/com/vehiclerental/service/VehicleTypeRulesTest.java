@@ -7,7 +7,6 @@ import com.vehiclerental.model.LicenseType;
 import com.vehiclerental.model.Motorcycle;
 import com.vehiclerental.model.Rental;
 import com.vehiclerental.model.Truck;
-import com.vehiclerental.model.Vehicle;
 import com.vehiclerental.repository.InMemoryRentalRepository;
 import com.vehiclerental.repository.RentalRepository;
 import com.vehiclerental.repository.VehicleRepository;
