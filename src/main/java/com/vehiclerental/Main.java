@@ -35,9 +35,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.time.ZoneId;
+
 public class Main {
     private static final Logger LOGGER =
             Logger.getLogger(Main.class.getName());
+    private static final ZoneId SYSTEM_ZONE = ZoneId.systemDefault();
     public static void main(String[] args) {
         ManagerRepository managerRepository = new InMemoryManagerRepository();
         VehicleRepository vehicleRepository = new InMemoryVehicleRepository();
@@ -187,8 +190,8 @@ public class Main {
                 1,
                 customer,
                 1,
-                LocalDate.now(),
-                LocalDate.now().plusDays(1)
+                LocalDate.now(SYSTEM_ZONE),
+                LocalDate.now(SYSTEM_ZONE).plusDays(1)
         );
 
         if (rental != null) {
@@ -211,8 +214,8 @@ public class Main {
                 2,
                 customer,
                 1,
-                LocalDate.now(),
-                LocalDate.now().plusDays(3)
+                LocalDate.now(SYSTEM_ZONE),
+                LocalDate.now(SYSTEM_ZONE).plusDays(3)
         );
 
         if (secondRental != null) {
@@ -240,7 +243,7 @@ public class Main {
 
         Invoice invoice = returnService.returnVehicle(
                 1,
-                LocalDate.now().plusDays(3)
+                LocalDate.now(SYSTEM_ZONE).plusDays(3)
         );
 
         if (invoice != null) {
@@ -263,8 +266,8 @@ public class Main {
                 3,
                 customer,
                 4,
-                LocalDate.now(),
-                LocalDate.now().plusDays(2)
+                LocalDate.now(SYSTEM_ZONE),
+                LocalDate.now(SYSTEM_ZONE).plusDays(2)
         );
 
         if (rejectedTruckRental == null) {
@@ -287,8 +290,8 @@ public class Main {
                 4,
                 truckCustomer,
                 4,
-                LocalDate.now(),
-                LocalDate.now().plusDays(2)
+                LocalDate.now(SYSTEM_ZONE),
+                LocalDate.now(SYSTEM_ZONE).plusDays(2)
         );
 
         if (truckRental != null) {
@@ -309,8 +312,8 @@ public class Main {
                 5,
                 customer,
                 6,
-                LocalDate.now(),
-                LocalDate.now().plusDays(2)
+                LocalDate.now(SYSTEM_ZONE),
+                LocalDate.now(SYSTEM_ZONE).plusDays(2)
         );
 
         if (electricRental != null) {
@@ -323,6 +326,6 @@ public class Main {
         log("");
     }
     private static void log(Object message) {
-        LOGGER.info(String.valueOf(message));
+        LOGGER.info(() -> String.valueOf(message));
     }
 }
