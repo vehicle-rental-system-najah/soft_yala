@@ -34,15 +34,10 @@ import com.vehiclerental.validation.TruckLicenseValidationStrategy;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-/**
- * Main class used to run and demonstrate the Vehicle Rental Management System.
- */
+import java.util.logging.Logger;
 public class Main {
-    /**
-     * Starts the application and demonstrates the main system features.
-     *
-     * @param args command line arguments
-     */
+    private static final Logger LOGGER =
+            Logger.getLogger(Main.class.getName());
     public static void main(String[] args) {
         ManagerRepository managerRepository = new InMemoryManagerRepository();
         VehicleRepository vehicleRepository = new InMemoryVehicleRepository();
@@ -71,7 +66,7 @@ public class Main {
         );
 
         if (!authService.login("admin", "1234")) {
-            System.out.println("Invalid username or password");
+            log("Invalid username or password");
             return;
         }
 
@@ -83,7 +78,7 @@ public class Main {
         );
 
         authService.logout();
-        System.out.println("Manager logged out");
+        log("Manager logged out");
     }
 
     private static List<RentalValidationStrategy> createValidationStrategies() {
@@ -122,8 +117,8 @@ public class Main {
             ReminderService reminderService,
             ReturnService returnService
     ) {
-        System.out.println("Login successful");
-        System.out.println();
+        log("Login successful");
+        log("");
 
         displayAvailableVehicles(
                 catalogService,
@@ -172,16 +167,16 @@ public class Main {
             VehicleCatalogService catalogService,
             String heading
     ) {
-        System.out.println(heading);
+        log(heading);
 
         List<Vehicle> availableVehicles =
                 catalogService.getAvailableVehicles();
 
         for (Vehicle vehicle : availableVehicles) {
-            System.out.println(vehicle);
+            log(vehicle);
         }
 
-        System.out.println();
+        log("");
     }
 
     private static void demonstrateRegularRental(
@@ -197,20 +192,20 @@ public class Main {
         );
 
         if (rental != null) {
-            System.out.println("Rental created successfully");
-            System.out.println(rental);
+            log("Rental created successfully");
+            log(rental);
         } else {
-            System.out.println("Rental was not created");
+            log("Rental was not created");
         }
 
-        System.out.println();
+        log("");
     }
 
     private static void demonstrateDoubleBooking(
             RentalService rentalService,
             Customer customer
     ) {
-        System.out.println("Trying to rent the same vehicle again:");
+        log("Trying to rent the same vehicle again:");
 
         Rental secondRental = rentalService.rentVehicle(
                 2,
@@ -221,27 +216,27 @@ public class Main {
         );
 
         if (secondRental != null) {
-            System.out.println("Second rental created successfully");
-            System.out.println(secondRental);
+            log("Second rental created successfully");
+            log(secondRental);
         } else {
-            System.out.println("Second rental rejected");
+            log("Second rental rejected");
         }
 
-        System.out.println();
+        log("");
     }
 
     private static void demonstrateExpiryReminder(
             ReminderService reminderService
     ) {
-        System.out.println("Checking rental expiry reminders:");
+        log("Checking rental expiry reminders:");
         reminderService.checkExpiringRentals(1);
-        System.out.println();
+        log("");
     }
 
     private static void demonstrateVehicleReturn(
             ReturnService returnService
     ) {
-        System.out.println("Returning vehicle with late return:");
+        log("Returning vehicle with late return:");
 
         Invoice invoice = returnService.returnVehicle(
                 1,
@@ -249,18 +244,18 @@ public class Main {
         );
 
         if (invoice != null) {
-            System.out.println("Vehicle returned successfully");
-            System.out.println(invoice);
+            log("Vehicle returned successfully");
+            log(invoice);
         }
 
-        System.out.println();
+        log("");
     }
 
     private static void demonstrateRejectedTruckRental(
             RentalService rentalService,
             Customer customer
     ) {
-        System.out.println(
+        log(
                 "Trying to rent a truck with regular license:"
         );
 
@@ -273,10 +268,10 @@ public class Main {
         );
 
         if (rejectedTruckRental == null) {
-            System.out.println("Truck rental rejected");
+            log("Truck rental rejected");
         }
 
-        System.out.println();
+        log("");
     }
 
     private static void demonstrateAcceptedTruckRental(
@@ -284,7 +279,7 @@ public class Main {
     ) {
         Customer truckCustomer = createTruckCustomer();
 
-        System.out.println(
+        log(
                 "Trying to rent a truck with truck license:"
         );
 
@@ -297,18 +292,18 @@ public class Main {
         );
 
         if (truckRental != null) {
-            System.out.println("Truck rental created successfully");
-            System.out.println(truckRental);
+            log("Truck rental created successfully");
+            log(truckRental);
         }
 
-        System.out.println();
+        log("");
     }
 
     private static void demonstrateElectricVehicleRental(
             RentalService rentalService,
             Customer customer
     ) {
-        System.out.println("Trying to rent an electric vehicle:");
+        log("Trying to rent an electric vehicle:");
 
         Rental electricRental = rentalService.rentVehicle(
                 5,
@@ -319,12 +314,15 @@ public class Main {
         );
 
         if (electricRental != null) {
-            System.out.println(
+            log(
                     "Electric vehicle rental created successfully"
             );
-            System.out.println(electricRental);
+            log(electricRental);
         }
 
-        System.out.println();
+        log("");
+    }
+    private static void log(Object message) {
+        LOGGER.info(String.valueOf(message));
     }
 }
