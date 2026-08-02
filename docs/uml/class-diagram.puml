@@ -1,76 +1,105 @@
 @startuml
+
 skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype ortho
+
+title Vehicle Rental Management System - Class Diagram
+
+package "com.vehiclerental" {
+    class Main {
+        - LOGGER
+        - SYSTEM_ZONE
+        + main(args: String[]): void
+    }
+}
 
 package "model" {
     abstract class Vehicle {
-        - int id
-        - String plateNumber
-        - String brand
-        - String model
-        - double dailyRate
-        - VehicleStatus status
-        + getId()
-        + getPlateNumber()
-        + getBrand()
-        + getModel()
-        + getDailyRate()
-        + getStatus()
-        + setStatus(status)
-        + isAvailable()
-        + getType()
+        - id: int
+        - plateNumber: String
+        - brand: String
+        - model: String
+        - dailyRate: double
+        - status: VehicleStatus
+        + getId(): int
+        + getPlateNumber(): String
+        + getBrand(): String
+        + getModel(): String
+        + getDailyRate(): double
+        + getStatus(): VehicleStatus
+        + setStatus(status: VehicleStatus): void
+        + isAvailable(): boolean
+        + getType(): String
     }
 
-    class Car
+    class Car {
+        + getType(): String
+    }
+
     class Truck {
-        - double maxLoadKg
+        - maxLoadKg: double
+        + getMaxLoadKg(): double
+        + getType(): String
     }
+
     class Motorcycle {
-        - int engineCapacity
+        - engineCapacity: int
+        + getEngineCapacity(): int
+        + getType(): String
     }
+
     class Van {
-        - int seats
+        - seats: int
+        + getSeats(): int
+        + getType(): String
     }
+
     class ElectricVehicle {
-        - int batteryLevel
-        - boolean batteryChecked
+        - batteryLevel: int
+        - batteryChecked: boolean
+        + getBatteryLevel(): int
+        + isBatteryChecked(): boolean
+        + getType(): String
     }
 
     class Manager {
-        - int id
-        - String username
-        - String password
+        - id: int
+        - username: String
+        - password: String
     }
 
     class Customer {
-        - int id
-        - String name
-        - String phone
-        - String email
-        - int age
-        - License license
+        - id: int
+        - name: String
+        - phone: String
+        - email: String
+        - age: int
+        - license: License
     }
 
     class License {
-        - String licenseNumber
-        - LicenseType type
+        - licenseNumber: String
+        - type: LicenseType
     }
 
     class Rental {
-        - int id
-        - Customer customer
-        - Vehicle vehicle
-        - LocalDate startDate
-        - LocalDate endDate
-        - RentalStatus status
+        - id: int
+        - customer: Customer
+        - vehicle: Vehicle
+        - startDate: LocalDate
+        - endDate: LocalDate
+        - status: RentalStatus
     }
 
     class Invoice {
-        - int id
-        - Rental rental
-        - LocalDate returnDate
-        - double rentalCost
-        - double latePenalty
-        - double totalAmount
+        - id: int
+        - rental: Rental
+        - returnDate: LocalDate
+        - rentalCost: double
+        - latePenalty: double
+        - totalAmount: double
     }
 
     enum VehicleStatus {
@@ -98,9 +127,9 @@ package "model" {
     Vehicle <|-- ElectricVehicle
 
     Vehicle --> VehicleStatus
-    Rental --> RentalStatus
-    Customer --> License
+    Customer *-- License
     License --> LicenseType
+    Rental --> RentalStatus
     Rental --> Customer
     Rental --> Vehicle
     Invoice --> Rental
@@ -118,6 +147,10 @@ package "repository" {
     ManagerRepository <|.. InMemoryManagerRepository
     VehicleRepository <|.. InMemoryVehicleRepository
     RentalRepository <|.. InMemoryRentalRepository
+
+    ManagerRepository --> Manager
+    VehicleRepository --> Vehicle
+    RentalRepository --> Rental
 }
 
 package "service" {
@@ -131,6 +164,7 @@ package "service" {
 
 package "validation" {
     interface RentalValidationStrategy
+
     class AvailabilityValidationStrategy
     class DurationValidationStrategy
     class TruckLicenseValidationStrategy
@@ -146,6 +180,7 @@ package "validation" {
 
 package "pricing" {
     interface PricingStrategy
+
     class DefaultPricingStrategy
     class CarPricingStrategy
     class TruckPricingStrategy
@@ -185,17 +220,33 @@ package "util" {
 
 AuthService --> ManagerRepository
 VehicleCatalogService --> VehicleRepository
+
 RentalService --> VehicleRepository
 RentalService --> RentalRepository
-RentalService --> RentalValidationStrategy
+RentalService "1" o-- "*" RentalValidationStrategy
+RentalService --> Rental
+RentalService --> Customer
+RentalService --> Vehicle
+
 ReminderService --> RentalRepository
 ReminderService --> DateTimeProvider
-ReminderService --> RentalObserver
+ReminderService "1" o-- "*" RentalObserver
+
 BillingService --> PricingStrategy
 BillingService --> LatePenaltyStrategy
+BillingService --> Invoice
+
 ReturnService --> RentalRepository
 ReturnService --> BillingService
+ReturnService --> Invoice
 
 RentalExpiryObserver --> NotificationService
+
+Main --> AuthService
+Main --> VehicleCatalogService
+Main --> RentalService
+Main --> ReminderService
+Main --> BillingService
+Main --> ReturnService
 
 @enduml
