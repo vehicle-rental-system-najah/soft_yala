@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="760.0"
+            prefWidth="1280.0"
+            styleClass="dashboard-root"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.vehiclerental.gui.controller.AvailableVehiclesController">
+
+    <left>
+        <VBox prefWidth="255.0"
+              spacing="8.0"
+              styleClass="sidebar">
+
+            <padding>
+                <Insets top="28.0"
+                        right="20.0"
+                        bottom="24.0"
+                        left="20.0"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <StackPane prefHeight="44.0"
+                           prefWidth="44.0"
+                           styleClass="sidebar-logo">
+                    <Label text="VR"
+                           styleClass="sidebar-logo-text"/>
+                </StackPane>
+
+                <VBox spacing="1.0">
+                    <Label text="VELOCITY"
+                           styleClass="sidebar-brand"/>
+                    <Label text="Rental System"
+                           styleClass="sidebar-brand-small"/>
+                </VBox>
+            </HBox>
+
+            <Region prefHeight="35.0"/>
+
+            <Label text="MANAGEMENT"
+                   styleClass="menu-section"/>
+
+            <Button maxWidth="Infinity"
+                    onAction="#showDashboard"
+                    text="Dashboard"
+                    styleClass="menu-button"/>
+
+            <Button maxWidth="Infinity"
+                    text="Available Vehicles"
+                    styleClass="menu-button-active"/>
+
+            <Button maxWidth="Infinity"
+                    onAction="#showRentals"
+                    text="Create Rental"
+                    styleClass="menu-button"/>
+
+            <Button maxWidth="Infinity"
+                    onAction="#showReturns"
+                    text="Return Vehicle"
+                    styleClass="menu-button"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <VBox spacing="4.0"
+                  styleClass="manager-card">
+                <Label text="Signed in as"
+                       styleClass="manager-label"/>
+                <Label text="System Manager"
+                       styleClass="manager-name"/>
+            </VBox>
+
+            <Button maxWidth="Infinity"
+                    onAction="#handleLogout"
+                    text="Sign Out"
+                    styleClass="logout-button"/>
+        </VBox>
+    </left>
+
+    <top>
+        <HBox alignment="CENTER_LEFT"
+              spacing="18.0"
+              styleClass="top-bar">
+
+            <padding>
+                <Insets top="22.0"
+                        right="38.0"
+                        bottom="22.0"
+                        left="38.0"/>
+            </padding>
+
+            <VBox spacing="3.0">
+                <Label text="Available Vehicles"
+                       styleClass="page-title"/>
+
+                <Label text="Browse and search vehicles that are ready for rental."
+                       styleClass="page-subtitle"/>
+            </VBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <VBox alignment="CENTER_RIGHT" spacing="2.0">
+                <Label text="Vehicle Rental System"
+                       styleClass="top-manager"/>
+                <Label text="Vehicle Catalogue"
+                       styleClass="top-role"/>
+            </VBox>
+
+            <StackPane prefHeight="45.0"
+                       prefWidth="45.0"
+                       styleClass="manager-avatar">
+                <Label text="M"
+                       styleClass="manager-avatar-text"/>
+            </StackPane>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="22.0"
+              styleClass="vehicles-page">
+
+            <padding>
+                <Insets top="30.0"
+                        right="38.0"
+                        bottom="35.0"
+                        left="38.0"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="14.0">
+                <VBox spacing="4.0">
+                    <Label text="Vehicle Catalogue"
+                           styleClass="card-title"/>
+
+                    <Label fx:id="vehicleCountLabel"
+                           text="0 vehicles"
+                           styleClass="card-description"/>
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <TextField fx:id="searchField"
+                           prefWidth="290.0"
+                           promptText="Search by ID, type, brand or plate"
+                           styleClass="vehicle-search-field"/>
+
+                <Button onAction="#refreshVehicles"
+                        text="Refresh"
+                        styleClass="action-button-primary"/>
+            </HBox>
+
+            <VBox spacing="0.0"
+                  VBox.vgrow="ALWAYS"
+                  styleClass="vehicle-table-card">
+
+                <TableView fx:id="vehicleTable"
+                           columnResizePolicy="CONSTRAINED_RESIZE_POLICY"
+                           VBox.vgrow="ALWAYS"
+                           styleClass="vehicle-table">
+
+                    <columns>
+                        <TableColumn fx:id="idColumn"
+                                     maxWidth="75.0"
+                                     minWidth="65.0"
+                                     prefWidth="70.0"
+                                     text="ID"/>
+
+                        <TableColumn fx:id="typeColumn"
+                                     prefWidth="130.0"
+                                     text="Type"/>
+
+                        <TableColumn fx:id="brandColumn"
+                                     prefWidth="140.0"
+                                     text="Brand"/>
+
+                        <TableColumn fx:id="modelColumn"
+                                     prefWidth="160.0"
+                                     text="Model"/>
+
+                        <TableColumn fx:id="plateColumn"
+                                     prefWidth="150.0"
+                                     text="Plate Number"/>
+
+                        <TableColumn fx:id="rateColumn"
+                                     prefWidth="130.0"
+                                     text="Daily Rate"/>
+
+                        <TableColumn fx:id="statusColumn"
+                                     prefWidth="125.0"
+                                     text="Status"/>
+                    </columns>
+
+                    <placeholder>
+                        <VBox alignment="CENTER" spacing="8.0">
+                            <Label text="No vehicles found"
+                                   styleClass="empty-title"/>
+                            <Label text="Try another search or refresh the catalogue."
+                                   styleClass="empty-description"/>
+                        </VBox>
+                    </placeholder>
+                </TableView>
+            </VBox>
+        </VBox>
+    </center>
+
+</BorderPane>
