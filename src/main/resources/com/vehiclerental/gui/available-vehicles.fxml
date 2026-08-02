@@ -163,11 +163,10 @@
                   VBox.vgrow="ALWAYS"
                   styleClass="vehicle-table-card">
 
-                <TableView fx:id="vehicleTable"
-                           columnResizePolicy="CONSTRAINED_RESIZE_POLICY"
-                           VBox.vgrow="ALWAYS"
-                           styleClass="vehicle-table">
-
+                <TableView fx:id="vehicleTable">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
                     <columns>
                         <TableColumn fx:id="idColumn"
                                      maxWidth="75.0"
