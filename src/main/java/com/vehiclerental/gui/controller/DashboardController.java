@@ -4,9 +4,8 @@ import com.vehiclerental.gui.GuiContext;
 import com.vehiclerental.gui.VehicleRentalApp;
 import com.vehiclerental.model.Rental;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-
+import java.util.Objects;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
@@ -54,8 +53,7 @@ public class DashboardController {
         long reminderCount = rentals.stream()
                 .filter(Rental::isActive)
                 .map(Rental::getEndDate)
-                .filter(endDate -> endDate != null)
-                .filter(endDate ->
+                .filter(Objects::nonNull)                .filter(endDate ->
                         !endDate.isBefore(today)
                                 && !endDate.isAfter(today.plusDays(3))
                 )

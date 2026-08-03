@@ -198,10 +198,7 @@ public class CreateRentalController {
                 );
             }
 
-            if (selectedVehicle instanceof ElectricVehicle) {
-                ElectricVehicle electricVehicle =
-                        (ElectricVehicle) selectedVehicle;
-
+            if (selectedVehicle instanceof ElectricVehicle electricVehicle) {
                 if (!electricVehicle.isBatteryChecked()
                         || electricVehicle.getBatteryLevel() < 30) {
 
