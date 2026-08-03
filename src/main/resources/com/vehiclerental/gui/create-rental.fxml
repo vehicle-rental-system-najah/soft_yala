@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="760.0"
+            prefWidth="1280.0"
+            styleClass="dashboard-root"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.vehiclerental.gui.controller.CreateRentalController">
+
+    <left>
+        <VBox prefWidth="255.0"
+              spacing="8.0"
+              styleClass="sidebar">
+
+            <padding>
+                <Insets top="28.0"
+                        right="20.0"
+                        bottom="24.0"
+                        left="20.0"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <StackPane prefHeight="44.0"
+                           prefWidth="44.0"
+                           styleClass="sidebar-logo">
+                    <Label text="VR"
+                           styleClass="sidebar-logo-text"/>
+                </StackPane>
+
+                <VBox spacing="1.0">
+                    <Label text="VELOCITY"
+                           styleClass="sidebar-brand"/>
+                    <Label text="Rental System"
+                           styleClass="sidebar-brand-small"/>
+                </VBox>
+            </HBox>
+
+            <Region prefHeight="35.0"/>
+
+            <Label text="MANAGEMENT"
+                   styleClass="menu-section"/>
+
+            <Button maxWidth="Infinity"
+                    onAction="#showDashboard"
+                    text="Dashboard"
+                    styleClass="menu-button"/>
+
+            <Button maxWidth="Infinity"
+                    onAction="#showVehicles"
+                    text="Available Vehicles"
+                    styleClass="menu-button"/>
+
+            <Button maxWidth="Infinity"
+                    text="Create Rental"
+                    styleClass="menu-button-active"/>
+
+            <Button maxWidth="Infinity"
+                    onAction="#showReturns"
+                    text="Return Vehicle"
+                    styleClass="menu-button"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <VBox spacing="4.0"
+                  styleClass="manager-card">
+                <Label text="Signed in as"
+                       styleClass="manager-label"/>
+                <Label text="System Manager"
+                       styleClass="manager-name"/>
+            </VBox>
+
+            <Button maxWidth="Infinity"
+                    onAction="#handleLogout"
+                    text="Sign Out"
+                    styleClass="logout-button"/>
+        </VBox>
+    </left>
+
+    <top>
+        <HBox alignment="CENTER_LEFT"
+              spacing="18.0"
+              styleClass="top-bar">
+
+            <padding>
+                <Insets top="22.0"
+                        right="38.0"
+                        bottom="22.0"
+                        left="38.0"/>
+            </padding>
+
+            <VBox spacing="3.0">
+                <Label text="Create Rental"
+                       styleClass="page-title"/>
+
+                <Label text="Enter customer information and select an available vehicle."
+                       styleClass="page-subtitle"/>
+            </VBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <VBox alignment="CENTER_RIGHT" spacing="2.0">
+                <Label text="Vehicle Rental System"
+                       styleClass="top-manager"/>
+                <Label text="Rental Operations"
+                       styleClass="top-role"/>
+            </VBox>
+
+            <StackPane prefHeight="45.0"
+                       prefWidth="45.0"
+                       styleClass="manager-avatar">
+                <Label text="M"
+                       styleClass="manager-avatar-text"/>
+            </StackPane>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true"
+                    hbarPolicy="NEVER"
+                    styleClass="rental-scroll-pane">
+
+            <content>
+                <VBox spacing="22.0"
+                      styleClass="vehicles-page">
+
+                    <padding>
+                        <Insets top="30.0"
+                                right="38.0"
+                                bottom="35.0"
+                                left="38.0"/>
+                    </padding>
+
+                    <VBox spacing="22.0"
+                          styleClass="vehicle-table-card">
+
+                        <padding>
+                            <Insets top="28.0"
+                                    right="30.0"
+                                    bottom="30.0"
+                                    left="30.0"/>
+                        </padding>
+
+                        <VBox spacing="4.0">
+                            <Label text="Rental Information"
+                                   styleClass="card-title"/>
+
+                            <Label text="Fill in all required information before creating the rental."
+                                   styleClass="card-description"/>
+                        </VBox>
+
+                        <Separator/>
+
+                        <GridPane hgap="22.0"
+                                  vgap="16.0">
+
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="50.0"/>
+                                <ColumnConstraints percentWidth="50.0"/>
+                            </columnConstraints>
+
+                            <VBox spacing="7.0"
+                                  GridPane.columnIndex="0"
+                                  GridPane.rowIndex="0">
+                                <Label text="Rental ID"
+                                       styleClass="form-label"/>
+                                <TextField fx:id="rentalIdField"
+                                           promptText="Enter rental ID"
+                                           styleClass="vehicle-search-field"/>
+                            </VBox>
+
+                            <VBox spacing="7.0"
+                                  GridPane.columnIndex="1"
+                                  GridPane.rowIndex="0">
+                                <Label text="Customer ID"
+                                       styleClass="form-label"/>
+                                <TextField fx:id="customerIdField"
+                                           promptText="Enter customer ID"
+                                           styleClass="vehicle-search-field"/>
+                            </VBox>
+
+                            <VBox spacing="7.0"
+                                  GridPane.columnIndex="0"
+                                  GridPane.rowIndex="1">
+                                <Label text="Customer Name"
+                                       styleClass="form-label"/>
+                                <TextField fx:id="customerNameField"
+                                           promptText="Enter customer name"
+                                           styleClass="vehicle-search-field"/>
+                            </VBox>
+
+                            <VBox spacing="7.0"
+                                  GridPane.columnIndex="1"
+                                  GridPane.rowIndex="1">
+                                <Label text="Customer Age"
+                                       styleClass="form-label"/>
+                                <TextField fx:id="ageField"
+                                           promptText="Enter customer age"
+                                           styleClass="vehicle-search-field"/>
+                            </VBox>
+
+                            <VBox spacing="7.0"
+                                  GridPane.columnIndex="0"
+                                  GridPane.rowIndex="2">
+                                <Label text="Phone Number"
+                                       styleClass="form-label"/>
+                                <TextField fx:id="phoneField"
+                                           promptText="Enter phone number"
+                                           styleClass="vehicle-search-field"/>
+                            </VBox>
+
+                            <VBox spacing="7.0"
+                                  GridPane.columnIndex="1"
+                                  GridPane.rowIndex="2">
+                                <Label text="Email Address"
+                                       styleClass="form-label"/>
+                                <TextField fx:id="emailField"
+                                           promptText="Enter email address"
+                                           styleClass="vehicle-search-field"/>
+                            </VBox>
+
+                            <VBox spacing="7.0"
+                                  GridPane.columnIndex="0"
+                                  GridPane.rowIndex="3">
+                                <Label text="License Number"
+                                       styleClass="form-label"/>
+                                <TextField fx:id="licenseNumberField"
+                                           promptText="Enter license number"
+                                           styleClass="vehicle-search-field"/>
+                            </VBox>
+
+                            <VBox spacing="7.0"
+                                  GridPane.columnIndex="1"
+                                  GridPane.rowIndex="3">
+                                <Label text="License Type"
+                                       styleClass="form-label"/>
+                                <ComboBox fx:id="licenseTypeComboBox"
+                                          maxWidth="Infinity"
+                                          promptText="Select license type"
+                                          styleClass="vehicle-search-field"/>
+                            </VBox>
+
+                            <VBox spacing="7.0"
+                                  GridPane.columnIndex="0"
+                                  GridPane.columnSpan="2"
+                                  GridPane.rowIndex="4">
+                                <Label text="Available Vehicle"
+                                       styleClass="form-label"/>
+
+                                <HBox spacing="12.0">
+                                    <ComboBox fx:id="vehicleComboBox"
+                                              maxWidth="Infinity"
+                                              prefWidth="650.0"
+                                              HBox.hgrow="ALWAYS"
+                                              promptText="Select an available vehicle"
+                                              styleClass="vehicle-search-field"/>
+
+                                    <Button onAction="#refreshVehicles"
+                                            text="Refresh"
+                                            styleClass="action-button-primary"/>
+                                </HBox>
+                            </VBox>
+
+                            <VBox spacing="7.0"
+                                  GridPane.columnIndex="0"
+                                  GridPane.rowIndex="5">
+                                <Label text="Start Date"
+                                       styleClass="form-label"/>
+                                <DatePicker fx:id="startDatePicker"
+                                            maxWidth="Infinity"
+                                            styleClass="vehicle-search-field"/>
+                            </VBox>
+
+                            <VBox spacing="7.0"
+                                  GridPane.columnIndex="1"
+                                  GridPane.rowIndex="5">
+                                <Label text="End Date"
+                                       styleClass="form-label"/>
+                                <DatePicker fx:id="endDatePicker"
+                                            maxWidth="Infinity"
+                                            styleClass="vehicle-search-field"/>
+                            </VBox>
+                        </GridPane>
+
+                        <HBox alignment="CENTER_RIGHT"
+                              spacing="12.0">
+
+                            <Button onAction="#showVehicles"
+                                    text="Cancel"
+                                    styleClass="menu-button"/>
+
+                            <Button onAction="#handleCreateRental"
+                                    text="Create Rental"
+                                    styleClass="action-button-primary"/>
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

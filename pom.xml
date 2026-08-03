@@ -14,10 +14,27 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.10.2</junit.version>
         <mockito.version>5.12.0</mockito.version>
+        <javafx.version>17.0.16</javafx.version>
         <sonar.organization>vehicle-rental-system-najah</sonar.organization>
-    </properties>
+        <sonar.coverage.exclusions>src/main/java/com/vehiclerental/gui/**</sonar.coverage.exclusions>
+        <sonar.cpd.exclusions>
+            src/main/java/com/vehiclerental/gui/**,
+            src/main/resources/com/vehiclerental/gui/**
+        </sonar.cpd.exclusions>    </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -60,6 +77,15 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>com.vehiclerental.gui.VehicleRentalApp</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
