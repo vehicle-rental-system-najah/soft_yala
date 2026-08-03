@@ -154,7 +154,8 @@
                                styleClass="stat-icon-green"/>
                     </HBox>
 
-                    <Label text="6"
+                    <Label fx:id="availableVehiclesCountLabel"
+                           text="0"
                            styleClass="stat-number"/>
 
                     <Label text="Vehicles ready to rent"
@@ -174,8 +175,9 @@
                                styleClass="stat-icon-blue"/>
                     </HBox>
 
-                    <Label text="0"
-                           styleClass="stat-number"/>
+                    <Label fx:id="activeRentalsCountLabel"
+                            text="0"
+                            styleClass="stat-number"/>
 
                     <Label text="Currently rented vehicles"
                            styleClass="stat-description"/>
@@ -194,7 +196,8 @@
                                styleClass="stat-icon-orange"/>
                     </HBox>
 
-                    <Label text="0"
+                    <Label fx:id="reminderCountLabel"
+                           text="0"
                            styleClass="stat-number"/>
 
                     <Label text="Rentals close to expiry"
@@ -243,7 +246,7 @@
 
                         <Button onAction="#showRentals"
                                 text="Create Rental"
-                                styleClass="action-button-primary"/>
+                                styleClass="action-button"/>
 
                         <Button onAction="#showReturns"
                                 text="Return Vehicle"

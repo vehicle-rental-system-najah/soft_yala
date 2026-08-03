@@ -34,7 +34,12 @@ public class VehicleRentalApp extends Application {
     public static void showVehicles() {
         setScene("available-vehicles.fxml", 1280, 760);
     }
-
+    public static void showCreateRental() {
+        setScene("create-rental.fxml", 1280, 760);
+    }
+    public static void showReturnVehicle() {
+        setScene("return-vehicle.fxml", 1280, 760);
+    }
     private static void setScene(String fileName, double width, double height) {
         try {
             URL resource = VehicleRentalApp.class.getResource(

@@ -166,18 +166,12 @@ public class AvailableVehiclesController {
 
     @FXML
     private void showRentals() {
-        showInformation(
-                "Create Rental",
-                "The rental form will be added in the next step."
-        );
+        VehicleRentalApp.showCreateRental();
     }
 
     @FXML
     private void showReturns() {
-        showInformation(
-                "Return Vehicle",
-                "The return and invoice page will be added next."
-        );
+        VehicleRentalApp.showReturnVehicle();
     }
 
     @FXML
