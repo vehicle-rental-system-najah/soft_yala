@@ -19,7 +19,7 @@ import java.time.ZoneId;
 import com.vehiclerental.model.ElectricVehicle;
 import com.vehiclerental.model.Motorcycle;
 import com.vehiclerental.model.Truck;
-import java.time.temporal.ChronoUnit;
+
 /**
  * Controls the vehicle rental creation page.
  */

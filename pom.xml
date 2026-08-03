@@ -16,6 +16,8 @@
         <mockito.version>5.12.0</mockito.version>
         <javafx.version>17.0.16</javafx.version>
         <sonar.organization>vehicle-rental-system-najah</sonar.organization>
+        <sonar.coverage.exclusions>src/main/java/com/vehiclerental/gui/**</sonar.coverage.exclusions>
+        <sonar.cpd.exclusions>src/main/resources/com/vehiclerental/gui/*.fxml</sonar.cpd.exclusions>
     </properties>
 
     <dependencies>

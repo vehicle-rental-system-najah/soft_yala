@@ -15,16 +15,27 @@ public class VehicleRentalApp extends Application {
 
     private static Stage primaryStage;
     /**
+     * Stores the primary application stage.
+     *
+     * @param stage the primary JavaFX stage
+     */
+    private static void setPrimaryStage(Stage stage) {
+        primaryStage = stage;
+    }
+
+    /**
      * Initializes and displays the primary application window.
      *
      * @param stage the primary JavaFX stage
      */
     @Override
     public void start(Stage stage) {
-        primaryStage = stage;
+        setPrimaryStage(stage);
+
         primaryStage.setTitle("Vehicle Rental Management System");
         primaryStage.setMinWidth(1050);
         primaryStage.setMinHeight(680);
+
         showLogin();
         primaryStage.show();
     }
