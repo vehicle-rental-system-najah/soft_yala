@@ -15,7 +15,9 @@ import javafx.util.StringConverter;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
-
+/**
+ * Controls vehicle return and invoice operations.
+ */
 public class ReturnVehicleController {
 
     @FXML

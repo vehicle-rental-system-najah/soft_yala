@@ -10,7 +10,9 @@ import javafx.scene.control.Label;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
-
+/**
+ * Controls the main dashboard page.
+ */
 public class DashboardController {
 
     @FXML

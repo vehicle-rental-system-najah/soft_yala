@@ -8,11 +8,17 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.io.IOException;
 import java.util.Objects;
-
+/**
+ * Starts and manages the JavaFX vehicle rental application.
+ */
 public class VehicleRentalApp extends Application {
 
     private static Stage primaryStage;
-
+    /**
+     * Initializes and displays the primary application window.
+     *
+     * @param stage the primary JavaFX stage
+     */
     @Override
     public void start(Stage stage) {
         primaryStage = stage;
@@ -22,21 +28,34 @@ public class VehicleRentalApp extends Application {
         showLogin();
         primaryStage.show();
     }
-
+    /**
+     * Displays the login page.
+     */
     public static void showLogin() {
         setScene("login.fxml", 1180, 720);
     }
-
+    /**
+     * Displays the dashboard page.
+     */
     public static void showDashboard() {
         setScene("dashboard.fxml", 1280, 760);
     }
-
+    /**
+     * Displays the available vehicles page.
+     */
     public static void showVehicles() {
         setScene("available-vehicles.fxml", 1280, 760);
     }
+    /**
+     * Displays the create rental page.
+     */
     public static void showCreateRental() {
         setScene("create-rental.fxml", 1280, 760);
     }
+
+    /**
+     * Displays the return vehicle page.
+     */
     public static void showReturnVehicle() {
         setScene("return-vehicle.fxml", 1280, 760);
     }
@@ -74,7 +93,11 @@ public class VehicleRentalApp extends Application {
             );
         }
     }
-
+    /**
+     * Launches the JavaFX application.
+     *
+     * @param args command-line arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
