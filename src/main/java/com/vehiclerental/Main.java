@@ -36,11 +36,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.time.ZoneId;
-
+/**
+ * Runs and demonstrates the Vehicle Rental Management System.
+ */
 public class Main {
     private static final Logger LOGGER =
             Logger.getLogger(Main.class.getName());
     private static final ZoneId SYSTEM_ZONE = ZoneId.systemDefault();
+    /**
+     * Starts the Vehicle Rental Management System demonstration.
+     *
+     * @param args command-line arguments; not used
+     */
     public static void main(String[] args) {
         ManagerRepository managerRepository = new InMemoryManagerRepository();
         VehicleRepository vehicleRepository = new InMemoryVehicleRepository();
