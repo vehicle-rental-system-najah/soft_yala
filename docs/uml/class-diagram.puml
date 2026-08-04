@@ -15,6 +15,119 @@ package "com.vehiclerental" {
     }
 }
 
+package "gui" {
+    class VehicleRentalApp <<JavaFX Application>> {
+        - primaryStage: Stage
+        - setPrimaryStage(stage: Stage): void
+        + start(stage: Stage): void
+        + showLogin(): void
+        + showDashboard(): void
+        + showVehicles(): void
+        + showCreateRental(): void
+        + showReturnVehicle(): void
+        - setScene(fileName: String, width: double, height: double): void
+        + main(args: String[]): void
+    }
+
+    class GuiContext {
+        - MANAGER_REPOSITORY: ManagerRepository
+        - VEHICLE_REPOSITORY: VehicleRepository
+        - RENTAL_REPOSITORY: RentalRepository
+        - AUTH_SERVICE: AuthService
+        - VEHICLE_CATALOG_SERVICE: VehicleCatalogService
+        - RENTAL_SERVICE: RentalService
+        - BILLING_SERVICE: BillingService
+        - RETURN_SERVICE: ReturnService
+        + getAuthService(): AuthService
+        + getVehicleRepository(): VehicleRepository
+        + getRentalRepository(): RentalRepository
+        + getVehicleCatalogService(): VehicleCatalogService
+        + getRentalService(): RentalService
+        + getBillingService(): BillingService
+        + getReturnService(): ReturnService
+    }
+}
+
+package "gui.controller" {
+    class LoginController <<Controller>>
+
+    class DashboardController <<Controller>> {
+        - pageTitle: Label
+        - pageDescription: Label
+        - availableVehiclesCountLabel: Label
+        - activeRentalsCountLabel: Label
+        - reminderCountLabel: Label
+        - initialize(): void
+        - refreshDashboardStats(): void
+        - showDashboard(): void
+        - showVehicles(): void
+        - showRentals(): void
+        - showReturns(): void
+        - handleLogout(): void
+    }
+
+    class AvailableVehiclesController <<Controller>> {
+        - searchField: TextField
+        - vehicleCountLabel: Label
+        - vehicleTable: TableView
+        - vehicles: ObservableList
+        - filteredVehicles: FilteredList
+        - initialize(): void
+        - configureColumns(): void
+        - refreshVehicles(): void
+        - filterVehicles(searchText: String): void
+        - updateVehicleCount(): void
+        - showDashboard(): void
+        - showRentals(): void
+        - showReturns(): void
+        - handleLogout(): void
+    }
+
+    class CreateRentalController <<Controller>> {
+        - rentalIdField: TextField
+        - customerIdField: TextField
+        - customerNameField: TextField
+        - phoneField: TextField
+        - emailField: TextField
+        - ageField: TextField
+        - licenseNumberField: TextField
+        - licenseTypeComboBox: ComboBox
+        - vehicleComboBox: ComboBox
+        - startDatePicker: DatePicker
+        - endDatePicker: DatePicker
+        - initialize(): void
+        - refreshVehicles(): void
+        - handleCreateRental(): void
+        - createLicense(): License
+        - clearForm(): void
+        - showDashboard(): void
+        - showVehicles(): void
+        - showReturns(): void
+        - handleLogout(): void
+    }
+
+    class ReturnVehicleController <<Controller>> {
+        - rentalComboBox: ComboBox
+        - returnDatePicker: DatePicker
+        - customerValueLabel: Label
+        - vehicleValueLabel: Label
+        - rentalPeriodValueLabel: Label
+        - rentalCostValueLabel: Label
+        - latePenaltyValueLabel: Label
+        - totalAmountValueLabel: Label
+        - invoiceBox: VBox
+        - initialize(): void
+        - refreshRentals(): void
+        - updateRentalInformation(rental: Rental): void
+        - handleReturnVehicle(): void
+        - displayInvoice(invoice: Invoice): void
+        - showDashboard(): void
+        - showVehicles(): void
+        - showRentals(): void
+        - handleLogout(): void
+    }
+}
+
 package "model" {
     abstract class Vehicle {
         - id: int
@@ -91,6 +204,8 @@ package "model" {
         - startDate: LocalDate
         - endDate: LocalDate
         - status: RentalStatus
+        + isActive(): boolean
+        + close(): void
     }
 
     class Invoice {
@@ -248,5 +363,45 @@ Main --> RentalService
 Main --> ReminderService
 Main --> BillingService
 Main --> ReturnService
+
+GuiContext --> ManagerRepository
+GuiContext --> VehicleRepository
+GuiContext --> RentalRepository
+GuiContext --> AuthService
+GuiContext --> VehicleCatalogService
+GuiContext --> RentalService
+GuiContext --> BillingService
+GuiContext --> ReturnService
+GuiContext --> RentalValidationStrategy
+
+VehicleRentalApp ..> LoginController : loads
+VehicleRentalApp ..> DashboardController : loads
+VehicleRentalApp ..> AvailableVehiclesController : loads
+VehicleRentalApp ..> CreateRentalController : loads
+VehicleRentalApp ..> ReturnVehicleController : loads
+
+LoginController --> GuiContext
+LoginController --> VehicleRentalApp
+
+DashboardController --> GuiContext
+DashboardController --> VehicleRentalApp
+DashboardController --> Rental
+
+AvailableVehiclesController --> GuiContext
+AvailableVehiclesController --> VehicleRentalApp
+AvailableVehiclesController --> Vehicle
+
+CreateRentalController --> GuiContext
+CreateRentalController --> VehicleRentalApp
+CreateRentalController --> Customer
+CreateRentalController --> License
+CreateRentalController --> LicenseType
+CreateRentalController --> Vehicle
+CreateRentalController --> Rental
+
+ReturnVehicleController --> GuiContext
+ReturnVehicleController --> VehicleRentalApp
+ReturnVehicleController --> Rental
+ReturnVehicleController --> Invoice
 
 @enduml
