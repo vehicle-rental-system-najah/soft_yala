@@ -1,13 +1,13 @@
 # Vehicle Rental Management System
 
-A Java-based Vehicle Rental Management System developed using Maven.
+A Java-based Vehicle Rental Management System developed using Maven and JavaFX.
 
-The system allows managers to authenticate, view available vehicles, create rentals, prevent invalid bookings, return vehicles, calculate invoices, apply late penalties, and manage different vehicle types using object-oriented design principles and design patterns.
+The system allows managers to authenticate, view available vehicles, create and validate rentals, return vehicles, calculate invoices, apply late penalties, and manage different vehicle types using object-oriented principles and design patterns.
 
 ## Team Members
 
 - Alaa Lubbadeh
-- Yara obeid
+- Yara Obeid
 
 ## Main Features
 
@@ -20,7 +20,9 @@ The system allows managers to authenticate, view available vehicles, create rent
 ### Vehicle Catalogue
 
 - Display available vehicles only.
-- Hide rented and unavailable vehicles.
+- Search vehicles by ID, type, brand, model, or plate number.
+- Hide rented or unavailable vehicles.
+- Refresh the available vehicle list.
 - Support multiple vehicle types:
   - Car
   - Van
@@ -31,37 +33,78 @@ The system allows managers to authenticate, view available vehicles, create rent
 ### Rental Operations
 
 - Create a rental record.
-- Connect the rental to a customer and vehicle.
-- Change the vehicle status to rented.
+- Connect the rental to a customer and a vehicle.
+- Change the vehicle status to `RENTED`.
 - Prevent double booking.
+- Prevent duplicate rental IDs.
 - Validate the rental period.
 - Reject invalid rental requests.
+- Update the dashboard after creating a rental.
 
 ### Vehicle-Specific Validation
 
 - Trucks require a truck driving license.
-- Motorcycle rentals require an eligible customer age.
+- Motorcycle renters must be at least 18 years old.
 - Electric vehicles require a valid battery check.
-- Availability is verified before creating a rental.
+- The electric vehicle battery level must be at least 30%.
+- Vehicle availability is verified before creating a rental.
+- Rental duration cannot exceed 30 days.
+- The rental end date must be after the start date.
 
 ### Rental Reminders
 
-- Detect rentals that are close to their end date.
+- Detect active rentals that are close to their end date.
+- Display the number of rentals close to expiration on the dashboard.
 - Notify customers about expiring rentals.
-- Use the Observer Pattern for expiry notifications.
-- Use Mockito to test notification behavior.
+- Use the Observer Pattern for rental expiry notifications.
+- Use Mockito to test the notification behavior.
 
 ### Returns and Billing
 
+- Display active rentals only.
 - Return rented vehicles.
-- Change the vehicle status back to available.
+- Change the vehicle status back to `AVAILABLE`.
 - Close rental records.
+- Validate the actual return date.
 - Calculate the rental cost.
 - Apply late return penalties.
 - Generate an invoice containing:
   - Rental cost
   - Late penalty
   - Total amount
+
+## JavaFX Graphical User Interface
+
+The project includes a JavaFX graphical user interface with the following pages:
+
+- Manager Login
+- Dashboard
+- Available Vehicles
+- Create Rental
+- Return Vehicle
+- Generated Invoice
+
+The dashboard displays dynamic information about:
+
+- Available vehicles
+- Active rentals
+- Rentals close to expiration
+- System status
+
+The GUI is connected directly to the existing service and repository layers.
+
+### GUI Workflow
+
+```text
+Login
+→ Dashboard
+→ Browse Available Vehicles
+→ Create Rental
+→ Return Vehicle
+→ Generate Invoice
+```
+
+Rental and return operations automatically update the dashboard statistics and vehicle availability.
 
 ## Design Patterns
 
@@ -103,7 +146,7 @@ Main components:
 
 ### Repository Pattern
 
-Repositories separate data access from the business logic.
+The Repository Pattern separates data access from business logic.
 
 The project currently uses in-memory repository implementations:
 
@@ -111,12 +154,23 @@ The project currently uses in-memory repository implementations:
 - `InMemoryVehicleRepository`
 - `InMemoryRentalRepository`
 
+Because the repositories are stored in memory, rental data is available while the application is running and is reset when the application is restarted.
+
 ## Project Architecture
 
 The project is divided into the following packages:
 
 ```text
 com.vehiclerental
+├── gui
+│   ├── controller
+│   │   ├── LoginController
+│   │   ├── DashboardController
+│   │   ├── AvailableVehiclesController
+│   │   ├── CreateRentalController
+│   │   └── ReturnVehicleController
+│   ├── GuiContext
+│   └── VehicleRentalApp
 ├── model
 ├── repository
 ├── service
@@ -127,21 +181,35 @@ com.vehiclerental
 └── util
 ```
 
+### GUI Layer
+
+Contains the JavaFX application, shared GUI context, page controllers, FXML files, and CSS styling.
+
+Main GUI classes:
+
+- `VehicleRentalApp`
+- `GuiContext`
+- `LoginController`
+- `DashboardController`
+- `AvailableVehiclesController`
+- `CreateRentalController`
+- `ReturnVehicleController`
+
 ### Model Layer
 
 Contains the main system entities:
 
-- Vehicle
-- Car
-- Van
-- Truck
-- Motorcycle
-- ElectricVehicle
-- Customer
-- Manager
-- License
-- Rental
-- Invoice
+- `Vehicle`
+- `Car`
+- `Van`
+- `Truck`
+- `Motorcycle`
+- `ElectricVehicle`
+- `Customer`
+- `Manager`
+- `License`
+- `Rental`
+- `Invoice`
 
 ### Repository Layer
 
@@ -180,6 +248,9 @@ Provides date operations through:
 ## Technologies Used
 
 - Java 17
+- JavaFX 17
+- FXML
+- CSS
 - Maven
 - JUnit 5
 - Mockito
@@ -187,47 +258,77 @@ Provides date operations through:
 - SonarQube Cloud
 - GitHub Actions
 - PlantUML
-- Git and GitHub
+- Git
+- GitHub
 
 ## Requirements
 
 Before running the project, make sure the following tools are available:
 
 - Java Development Kit 17
-- Maven, or the Maven integration available in IntelliJ IDEA
+- Maven, or Maven integration in IntelliJ IDEA
 - IntelliJ IDEA or another Java IDE
+- Internet access for downloading Maven dependencies
 
 ## How to Run the Application
 
-The main entry point is:
-
-```text
-src/main/java/com/vehiclerental/Main.java
-```
-
-### Using IntelliJ IDEA
-
-1. Open the project in IntelliJ IDEA.
-2. Wait for Maven dependencies to load.
-3. Open `Main.java`.
-4. Run the `main` method.
-
-Default manager credentials used by the demonstration are:
+### Default Login Credentials
 
 ```text
 Username: admin
 Password: 1234
 ```
 
-### Using Maven
+### Using IntelliJ IDEA and Maven
+
+1. Open the project in IntelliJ IDEA.
+2. Wait for Maven dependencies to load.
+3. Open the Maven tool window.
+4. Reload all Maven projects.
+5. Open:
+
+```text
+Plugins → javafx → javafx:run
+```
+
+6. Double-click `javafx:run`.
+
+The JavaFX login page will open automatically.
+
+### Using the Command Line
 
 Run:
 
 ```bash
-mvn clean compile
+mvn clean javafx:run
 ```
 
-Then run the main class through the IDE.
+The JavaFX application should be started through Maven so that the required JavaFX libraries are included correctly.
+
+## GUI Validation
+
+The Create Rental page validates:
+
+- Required customer information.
+- Positive rental and customer IDs.
+- Duplicate rental IDs.
+- Valid start and end dates.
+- Rental duration of no more than 30 days.
+- Vehicle availability.
+- Truck driving license requirements.
+- Minimum motorcycle rental age.
+- Electric vehicle battery status.
+
+The Return Vehicle page:
+
+- Displays active rentals only.
+- Validates the actual return date.
+- Prevents returning an already closed rental.
+- Closes the selected rental.
+- Returns the vehicle to available status.
+- Calculates the rental cost.
+- Calculates late penalties.
+- Displays the generated invoice.
 
 ## Testing
 
@@ -256,12 +357,24 @@ Run the full verification process using:
 mvn clean verify
 ```
 
-The current test suite contains 21 passing tests with:
+The current test suite contains 21 passing tests:
 
 ```text
 Failures: 0
 Errors: 0
 Skipped: 0
+```
+
+The JavaFX workflow was also tested manually using the following scenario:
+
+```text
+Login
+→ View Available Vehicles
+→ Create Rental
+→ Check Dashboard Statistics
+→ Return Vehicle
+→ Generate Invoice
+→ Confirm Vehicle Availability
 ```
 
 ## Code Coverage
@@ -280,7 +393,7 @@ Then open:
 target/site/jacoco/index.html
 ```
 
-Latest JaCoCo results after refactoring:
+Recorded JaCoCo results after refactoring:
 
 | Metric | Result |
 |---|---:|
@@ -289,18 +402,21 @@ Latest JaCoCo results after refactoring:
 | Covered Classes | 35 of 37 |
 | Covered Lines | 419 of 477 |
 
+JavaFX GUI classes are tested manually and are excluded from the SonarQube new-code coverage calculation.
+
 ## SonarQube Cloud Analysis
 
 SonarQube Cloud is integrated with the project through GitHub Actions.
 
 The workflow automatically performs:
 
-- Maven build
-- Unit tests
-- JaCoCo coverage generation
-- SonarQube code-quality analysis
+- Maven build.
+- Unit test execution.
+- JaCoCo coverage generation.
+- SonarQube code-quality analysis.
+- Pull Request quality checks.
 
-Latest overall SonarQube results:
+Recorded overall SonarQube results after refactoring:
 
 | Metric | Result |
 |---|---:|
@@ -311,22 +427,24 @@ Latest overall SonarQube results:
 | Duplications | 0.0% |
 | Security Hotspots | 0 |
 
-Latest results on new code:
+Recorded results on new code:
 
 | Metric | Result |
 |---|---:|
-| New Issues | 0 |
-| New Code Coverage | 93.75% |
-| Duplications | 0.0% |
+| New Code Coverage | At least 80% |
+| Duplications | At most 3% |
 | Quality Gate | Passed |
+
+The JavaFX GUI Pull Request passed the SonarQube Quality Gate before being merged into the main branch.
 
 ## Continuous Integration
 
 GitHub Actions runs automatically when:
 
-- Code is pushed to the main branch.
+- Code is pushed to the `master` branch.
 - A Pull Request is opened.
 - A Pull Request is updated.
+- New commits are pushed to a Pull Request branch.
 
 The workflow file is located at:
 
@@ -334,25 +452,44 @@ The workflow file is located at:
 .github/workflows/build.yml
 ```
 
+A Pull Request is merged only after:
+
+- Maven build passes.
+- All tests pass.
+- SonarQube analysis completes.
+- The Quality Gate passes.
+- No merge conflicts remain.
+
 ## Refactoring Improvements
 
 The following improvements were applied during the refactoring phase:
 
 - Reduced the cognitive complexity of `Main.java`.
 - Extracted responsibilities into smaller methods.
-- Replaced console output with Java logging.
+- Replaced console output in `Main.java` with Java logging.
 - Added explicit time-zone handling for date operations.
 - Added an integration test for the main demonstration.
 - Increased code coverage above 80%.
 - Reduced reliability issues from 11 to 0.
 - Reduced maintainability issues from 55 to 7.
-- Preserved all existing system behavior.
+- Added a JavaFX graphical user interface.
+- Connected the GUI to the existing service and repository layers.
+- Added dynamic dashboard statistics.
+- Preserved the existing business behavior.
 
 ## Documentation
 
-The project contains Javadoc documentation for classes, methods, fields, parameters, and return values.
+The project includes:
 
-The updated UML class diagram is available at:
+- Javadoc for project classes and methods.
+- Updated PlantUML class diagram.
+- JavaFX GUI documentation.
+- Automated test reports.
+- JaCoCo coverage reports.
+- SonarQube Cloud quality analysis.
+- GitHub Actions build results.
+
+The updated UML files are available at:
 
 ```text
 docs/uml/class-diagram.puml
@@ -362,9 +499,11 @@ docs/uml/softuml.png
 ## Project Status
 
 - Build: Passing
-- Tests: Passing
+- Tests: 21 Passing
+- GUI Workflow: Working
+- Javadoc Inspection: No Missing Javadoc
 - Quality Gate: Passed
-- Overall SonarQube Coverage: 83.6%
-- JaCoCo Instruction Coverage: 88%
+- Recorded Overall SonarQube Coverage: 83.6%
+- Recorded JaCoCo Instruction Coverage: 88%
 - Reliability Issues: 0
 - Security Issues: 0
